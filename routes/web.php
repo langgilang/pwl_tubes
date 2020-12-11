@@ -12,5 +12,5 @@
 */
 
 Route::get('/', function () {
-    return view('index');git push -u origin main
+    return view('index');
 });
