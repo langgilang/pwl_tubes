@@ -12,9 +12,23 @@
 */
 
 Route::get('/', function () {
-<<<<<<< HEAD
-    return view('index'); 
-=======
-    return view('index');
->>>>>>> 405596d4694d3805d603c12fe5dd9421d71cb759
+    return view('layouts.master');  
 });
+
+// GURU
+Route::get('/dataguru', 'DataGuruController@index');
+Route::get('/dataguru/tambah', 'DataGuruController@create');
+
+// SISWA
+Route::get('/datasiswa', 'DataSiswaController@index');
+
+
+// MATA PELAJARAN
+Route::get('/datamapel', 'DataMapelController@index');
+
+// NILAI
+Route::get('/datanilai', 'DataNilaiController@index');
+
+// ABSENSI 
+Route::get('/dataabsensi', 'DataAbsensiController@index');
+
