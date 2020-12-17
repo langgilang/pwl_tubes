@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 // GURU
-Route::get('/dataguru', 'DataGuruController@index');
+Route::get('/dataguru', 'DataGuruController@index')->name('dataguru');
 Route::get('/dataguru/tambah', 'DataGuruController@create');
 
 // SISWA

@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Guru;
 
 class DataGuruController extends Controller
 {
@@ -13,7 +16,12 @@ class DataGuruController extends Controller
      */
     public function index()
     {
-        return view('dataguru.index');
+         $guru = Guru::all();
+        return view('dataguru.index',['guru'=> $guru]);
+        // $guru = Cache::remember('gurus', 10, function () {
+        // return DB::table('gurus')->get();
+        // });
+        // return view('dataguru.index',compact('guru'));
     }
 
     /**
