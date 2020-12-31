@@ -102,7 +102,7 @@ class DataSiswaController extends Controller
         $siswa->notelp = $request->notelp;        
         if($siswa->image &&file_exists(storage_path('app/public/' . $siswa->image)))
         {
-            \Storage::delete('public/'.$article->featured_image);
+            \Storage::delete('public/'.$siswa->image);
         }
         $image_name = $request->file('image')->store('images', 'public');
         $siswa->image = $image_name;
