@@ -11,24 +11,21 @@
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.master');  
-});
-
-// GURU
-Route::get('/dataguru', 'DataGuruController@index')->name('dataguru');
-Route::get('/dataguru/tambah', 'DataGuruController@create');
 
 // SISWA
 Route::get('/datasiswa', 'DataSiswaController@index');
-
-
-// MATA PELAJARAN
-Route::get('/datamapel', 'DataMapelController@index');
+Route::get('/datasiswa/add', 'DataSiswaController@add');
+Route::get('/datasiswa/cetak_pdf', 'DataSiswaController@cetak_pdf');
+Route::get('/datasiswa/edit/{id}', 'DataSiswaController@edit');
+Route::get('/datasiswa/delete/{id}', 'DataSiswaController@delete');
+Route::post('/datasiswa/update/{id}', 'DataSiswaController@update');
+Route::post('/datasiswa/create', 'DataSiswaController@create');
 
 // NILAI
 Route::get('/datanilai', 'DataNilaiController@index');
 
-// ABSENSI 
-Route::get('/dataabsensi', 'DataAbsensiController@index');
 
+
+Auth::routes();
+
+Route::get('/', 'HomeController@index')->name('home');

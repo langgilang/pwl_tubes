@@ -3,15 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>SIAKAD | Data Nilai</title>
+  <title>SIAKAD | Data Siswa</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -144,7 +147,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="../index3.html" class="brand-link">
-      <img src="../dist/img/AdminLTELogo.png"
+      <img src="../../dist/img/AdminLTELogo.png"
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
@@ -156,7 +159,7 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="#" class="d-block">{{ Auth::user()->name }}</a>
@@ -177,7 +180,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ ('/datasiswa')}}" class="nav-link">
+            <a href="{{ ('/datasiswa')}}" class="nav-link active">
               <i class=" nav-icon fa fa-graduation-cap" aria-hidden="true"></i>
               <p>
                 Data Siswa
@@ -185,7 +188,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ ('/datanilai')}}" class="nav-link active">
+            <a href="{{ ('/datanilai')}}" class="nav-link">
               <i class="nav-icon fas fa-star"></i>
               <p>
                 Data Nilai
@@ -218,12 +221,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Data Nilai</h1>
+            <h1>Tambah Data Siswa</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Data Nilai</li>
+              <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+              <li class="breadcrumb-item active">Data Siswa</li>
+              <li class="breadcrumb-item active">Edit Data Siswa</li>
             </ol>
           </div>
         </div>
@@ -234,65 +238,61 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- /.col -->
-          <div class="col-md-4">
-            <!-- Widget: user widget style 1 -->
-            <div class="card card-widget widget-user">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-danger">
-                <h3 class="widget-user-username">Alexander Pierce</h3>
-                <h5 class="widget-user-desc">Pendidikan Kewarganegaraan</h5>
+          <div class="col-12">
+            <div class="col-md-7">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Form Tambah Data</h3>
+                  </div>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form form action="/datasiswa/update/{{ $siswa->id }}" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                      <input type="hidden" name="id" value="{{$siswa->id}}">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">NIM</label>
+                        <input type="text" name="NIM" class="form-control" id="exampleInputEmail1" placeholder="Enter NIM" value="{{$siswa->NIM}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Nama</label>
+                        <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Enter Nama"value="{{$siswa->nama}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Kelas</label>
+                        <input type="text" name="kelas" class="form-control" id="exampleInputPassword1" placeholder="Enter Kelas" value="{{$siswa->kelas}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" id="exampleInputPassword1" placeholder="Enter Alamat" value="{{$siswa->alamat}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">No. Telp</label>
+                        <input type="text" name="notelp" class="form-control" id="exampleInputPassword1" placeholder="Enter No. Telp" value="{{$siswa->notelp}}">
+                      </div>
+                      <div class="form-group">
+                        <label for="image">Featured Image</label>
+                        <input type="file" class="form-control" required="required" name="image" value="{{$siswa->image}}">
+                      </div>
+                    </div>
+                    <!-- /.card-body -->
+    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.card -->
+    
               </div>
-              <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-block btn-outline-danger btn-lg">LIHAT TUGAS</button>
-              </div>
-            </div>
-            <!-- /.widget-user -->
+            <!-- /.card -->
           </div>
           <!-- /.col -->
-          <div class="col-md-4">
-            <!-- Widget: user widget style 1 -->
-            <div class="card card-widget widget-user">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-success">
-                <h3 class="widget-user-username text-right">Elizabeth Pierce</h3>
-                <h5 class="widget-user-desc text-right">Ilmu Pengetahuan Alam</h5>
-              </div>
-              <div class="widget-user-image">
-                <img class="img-circle" src="../dist/img/user3-128x128.jpg" alt="User Avatar">
-              </div>
-              <div class="card-footer">
-                <a href="">
-                  <button class="btn btn-block btn-outline-success btn-lg">LIHAT TUGAS</button>
-                </a>
-              </div>
-            </div>
-            <!-- /.widget-user -->
-          </div>
-          <!-- /.col -->
-          <div class="col-md-4">
-            <!-- Widget: user widget style 1 -->
-            <div class="card card-widget widget-user">
-              <!-- Add the bg color to the header using any of the bg-* classes -->
-              <div class="widget-user-header bg-info">
-                <h3 class="widget-user-username">Alexander Pierce</h3>
-                <h5 class="widget-user-desc">Matematika</h5>
-              </div>
-              <div class="widget-user-image">
-                <img class="img-circle elevation-2" src="../dist/img/user1-128x128.jpg" alt="User Avatar">
-              </div>
-              <div class="card-footer">
-                <button class="btn btn-block btn-outline-info btn-lg">LIHAT TUGAS</button>
-              </div>
-            </div>
-            <!-- /.widget-user -->
-          </div>  
         </div>
         <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div>
+      <!-- /.container-fluid -->
     </section>
     <!-- /.content -->
 
@@ -318,13 +318,34 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../dist/js/adminlte.min.js"></script>
+<script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+<script src="../../dist/js/demo.js"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </body>
 </html>

@@ -3,15 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>AdminLTE 3 | Widgets</title>
+  <title>SIAKAD | Data Siswa</title>
   <!-- Tell the browser to be responsive to screen width -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <!-- Font Awesome -->
-  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../../plugins/fontawesome-free/css/all.min.css">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="../../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="../../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../../dist/css/adminlte.min.css">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
@@ -148,7 +151,7 @@
            alt="AdminLTE Logo"
            class="brand-image img-circle elevation-3"
            style="opacity: .8">
-      <span class="brand-text font-weight-light">AdminLTE 3</span>
+      <span class="brand-text font-weight-light">SIAKAD</span>
     </a>
 
     <!-- Sidebar -->
@@ -159,7 +162,7 @@
           <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
+          <a href="#" class="d-block">{{ Auth::user()->name }}</a>
         </div>
       </div>
 
@@ -169,92 +172,40 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
+            <a href="/" class="nav-link">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
-                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="./index.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v1</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index2.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v2</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="./index3.html" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Dashboard v3</p>
-                </a>
-              </li>
-            </ul>
-          </li>
-          <li class="nav-item has-treeview menu-open">
-            <a href="#" class="nav-link active">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-                Data Guru
-                <i class="right fas fa-angle-left"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="{{ ('/dataguru') }}" class="nav-link active">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Daftar List Guru</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ ('/dataguru/tambah') }}" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Tambah Data</p>
-                </a>
-              </li>
-            </ul>
           </li>
           <li class="nav-item">
-            <a href="{{ ('/datasiswa')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+            <a href="{{ ('/datasiswa')}}" class="nav-link active">
+              <i class=" nav-icon fa fa-graduation-cap" aria-hidden="true"></i>
               <p>
                 Data Siswa
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
             <a href="{{ ('/datanilai')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
+              <i class="nav-icon fas fa-star"></i>
               <p>
                 Data Nilai
-                <span class="right badge badge-danger">New</span>
               </p>
             </a>
           </li>
           <li class="nav-item">
-            <a href="{{ ('/dataabsensi')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Absensi
-                <span class="right badge badge-danger">New</span>
-              </p>
+            <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault();
+            document.getElementById('logout-form').submit();">
+                <i class="nav-icon fa fa-sign-out-alt"></i>
+                <p>
+                    Logout
+                </p>
             </a>
-          </li>
-          <li class="nav-item">
-            <a href="{{ ('/datamapel')}}" class="nav-link">
-              <i class="nav-icon fas fa-th"></i>
-              <p>
-                Data Mapel
-                <span class="right badge badge-danger">New</span>
-              </p>
-            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                @csrf
+            </form>
           </li>
         </ul>
       </nav>
@@ -270,12 +221,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Widgets</h1>
+            <h1>Tambah Data Siswa</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">Widgets</li>
+              <li class="breadcrumb-item"><a href="/">Dashboard</a></li>
+              <li class="breadcrumb-item active">Data Siswa</li>
+              <li class="breadcrumb-item active">Tambah Data Siswa</li>
             </ol>
           </div>
         </div>
@@ -285,124 +237,62 @@
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
-        <h5 class="mb-2">Info Box</h5>
         <div class="row">
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-info"><i class="far fa-envelope"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Messages</span>
-                <span class="info-box-number">1,410</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-success"><i class="far fa-flag"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Bookmarks</span>
-                <span class="info-box-number">410</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-warning"><i class="far fa-copy"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Uploads</span>
-                <span class="info-box-number">13,648</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-          <!-- /.col -->
-          <div class="col-md-3 col-sm-6 col-12">
-            <div class="info-box">
-              <span class="info-box-icon bg-danger"><i class="far fa-star"></i></span>
-
-              <div class="info-box-content">
-                <span class="info-box-text">Likes</span>
-                <span class="info-box-number">93,139</span>
-              </div>
-              <!-- /.info-box-content -->
-            </div>
-            <!-- /.info-box -->
-          </div>
-        </div>
-    </section>
-    <section class="content">
-
-      <!-- Default box -->
-      <div class="card card-solid">
-        @foreach ($guru as $a)
-        <div class="card-body pb-0">
-          <div class="row d-flex align-items-stretch">
-            <div class="col-md-4 d-flex align-items-stretch">
-              <div class="card bg-light">
-                <div class="card-header text-muted border-bottom-0">
-                  {{ ($a->mapel) }}
+          <div class="col-12">
+            <div class="col-md-7">
+                <!-- general form elements -->
+                <div class="card card-primary">
+                  <div class="card-header">
+                    <h3 class="card-title">Form Tambah Data</h3>
                   </div>
-                <div class="card-body pt-0">
-                  <div class="row">
-                    <div class="col-7">
-                      <h2 class="lead"><b>{{ ($a->nama) }}</b></h2>
-                      <p class="text-muted text-sm"><b>About: </b> Web Designer / UX / Graphic Artist / Coffee Lover </p>
-                      <ul class="ml-4 mb-0 fa-ul text-muted">
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
-                        <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
-                      </ul>
+                  <!-- /.card-header -->
+                  <!-- form start -->
+                  <form form action="/datasiswa/create" method="post" enctype="multipart/form-data">
+                    @csrf
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">NIM</label>
+                        <input type="text" name="NIM" class="form-control" id="exampleInputEmail1" placeholder="Enter NIM">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Nama</label>
+                        <input type="text" name="nama" class="form-control" id="exampleInputPassword1" placeholder="Enter Nama">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Kelas</label>
+                        <input type="text" name="kelas" class="form-control" id="exampleInputPassword1" placeholder="Enter Kelas">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Alamat</label>
+                        <input type="text" name="alamat" class="form-control" id="exampleInputPassword1" placeholder="Enter Alamat">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">No. Telp</label>
+                        <input type="text" name="notelp" class="form-control" id="exampleInputPassword1" placeholder="Enter No. Telp">
+                      </div>
+                      <div class="form-group">
+                        <label for="image">Featured Image</label>
+                        <input type="file" class="form-control" required="required" name="image">
                     </div>
-                    <div class="col-5 text-center">
-                      <img src="../../dist/img/user1-128x128.jpg" alt="" class="img-circle img-fluid">
                     </div>
-                  </div>
+                    <!-- /.card-body -->
+    
+                    <div class="card-footer">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
                 </div>
-                <div class="card-footer">
-                  <div class="text-right">
-                    <a href="#" class="btn btn-sm bg-teal">
-                      <i class="fas fa-comments"></i>
-                    </a>
-                    <a href="#" class="btn btn-sm btn-primary">
-                      <i class="fas fa-user"></i> View Profile
-                    </a>
-                  </div>
-                </div>
+                <!-- /.card -->
+    
               </div>
-            </div>
+            <!-- /.card -->
           </div>
-          @endforeach
+          <!-- /.col -->
         </div>
-        <!-- /.card-body -->
-        <div class="card-footer">
-          <nav aria-label="Contacts Page Navigation">
-            <ul class="pagination justify-content-center m-0">
-              <li class="page-item active"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">4</a></li>
-              <li class="page-item"><a class="page-link" href="#">5</a></li>
-              <li class="page-item"><a class="page-link" href="#">6</a></li>
-              <li class="page-item"><a class="page-link" href="#">7</a></li>
-              <li class="page-item"><a class="page-link" href="#">8</a></li>
-            </ul>
-          </nav>
-        </div>
-        <!-- /.card-footer -->
+        <!-- /.row -->
       </div>
-      <!-- /.card -->
-
+      <!-- /.container-fluid -->
     </section>
-        
     <!-- /.content -->
 
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button" aria-label="Scroll to top">
@@ -427,13 +317,34 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery -->
-<script src="../plugins/jquery/jquery.min.js"></script>
+<script src="../../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
-<script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="../../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+<!-- DataTables -->
+<script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="../../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+<script src="../../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <!-- AdminLTE App -->
-<script src="../dist/js/adminlte.min.js"></script>
+<script src="../../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
-<script src="../dist/js/demo.js"></script>
+<script src="../../dist/js/demo.js"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+    $('#example2').DataTable({
+      "paging": true,
+      "lengthChange": false,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false,
+      "responsive": true,
+    });
+  });
+</script>
 </body>
 </html>
